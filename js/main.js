@@ -25,25 +25,32 @@ form.addEventListener("submit", (evento) => {
     const verificaExistencia = itens.find(item => item.nome.toUpperCase() == nomeValue)
 
     if (verificaExistencia) {
+
         if (obj.quantidade !== "") {
             
             obj.id = verificaExistencia.id
 
             atualiazaDados(verificaExistencia)
-            
+
             const index = itens.findIndex(item => {
-                item.id === verificaExistencia.id
+                return item.id === verificaExistencia.id
             })
 
             itens[index] = obj
         }
+
     } else {
+
+        const ultimoItemDoArray = itens[itens.length - 1]
+
+        obj.id = ultimoItemDoArray ? (ultimoItemDoArray).id + 1 : 0;
 
         if ((nomeValue !== "") && (quantidade.value !== "")) {
             
             criaElemento(obj)
 
             itens.push(obj)
+            
         }
     }
     
@@ -95,6 +102,11 @@ function botaoDeleta(id) {
 function deletaItemArray(id) {
     itens.splice(itens.findIndex(item => item.id === id), 1)
 
-
     localStorage.setItem("dados", JSON.stringify(itens))
 }
+
+
+
+// indexOf => Coloco o valor e ele retorna o index
+// findIndex => Coloco o item do array e ele retorna o primeiro index do valor que satisfaz a condicao
+// find => Coloco o item do array e ele retorna o valor que satisfaz a condicao 
